@@ -11,8 +11,8 @@ require_once '../config/config.php';
                     <h2 class="text-white">Załóż konto</h2>
                     <p class="text-muted fs-sm">Dołącz do społeczności MSTechPC i śledź swoje zamówienia.</p>
                 </div>
-                <form action="/api/auth.php?action=register" method="POST">
-                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                <form action="<?php echo BASE_URL; ?>/api/auth.php?action=register" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
                     <div class="form-group">
                         <label class="form-label">Imię i Nazwisko</label>
                         <input type="text" name="name" class="form-input" placeholder="Jan Kowalski" required>
@@ -37,7 +37,7 @@ require_once '../config/config.php';
                     <button type="submit" class="btn btn-primary w-100">Zarejestruj się</button>
                 </form>
                 <div class="auth-footer">
-                    Masz już konto? <a href="/account/login.php" class="text-primary">Zaloguj się</a>
+                    Masz już konto? <a href="<?php echo BASE_URL; ?>/account/login.php" class="text-primary">Zaloguj się</a>
                 </div>
             </div>
         </div>

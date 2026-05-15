@@ -10,8 +10,8 @@ require_once '../config/config.php';
                 <div class="auth-header">
                     <h2 class="text-white">Zaloguj się</h2>
                 </div>
-                <form action="/api/auth.php" method="POST">
-                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                <form action="<?php echo BASE_URL; ?>/api/auth.php?action=login" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
                     <div class="form-group">
                         <label class="form-label">Adres E-mail</label>
                         <input type="email" name="email" class="form-input" placeholder="Twoja nazwa użytkownika" required>
@@ -29,7 +29,7 @@ require_once '../config/config.php';
                     <button type="submit" class="btn btn-primary w-100">Zaloguj się</button>
                 </form>
                 <div class="auth-footer">
-                    Nie masz konta? <a href="/account/register.php" class="text-primary">Zarejestruj się</a>
+                    Nie masz konta? <a href="<?php echo BASE_URL; ?>/account/register.php" class="text-primary">Zarejestruj się</a>
                 </div>
             </div>
         </div>

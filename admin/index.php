@@ -1,7 +1,7 @@
 <?php
-session_start();
+require_once dirname(__DIR__) . '/config/config.php';
 // Mock admin check for demo purposes
-// if (!isset($_SESSION['admin_id'])) { header('Location: /account/login.php'); exit; }
+// if (!isset($_SESSION['admin_id'])) { header('Location: ' . BASE_URL . '/account/login.php'); exit; }
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -9,8 +9,8 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administratora - MSTechPC</title>
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>/css/main.css">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>/css/components.css">
 </head>
 <body class="admin-body">
 
@@ -29,7 +29,7 @@ session_start();
             <a href="#" class="admin-nav-item">Ustawienia</a>
         </nav>
         <div class="mt-2">
-            <a href="/index.php" class="btn btn-outline w-100">Powrót do strony</a>
+            <a href="<?php echo BASE_URL; ?>/index.php" class="btn btn-outline w-100">Powrót do strony</a>
         </div>
     </aside>
 

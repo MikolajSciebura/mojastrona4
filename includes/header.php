@@ -1,4 +1,4 @@
-<?php require_once 'config/config.php'; ?>
+<?php require_once dirname(__DIR__) . '/config/config.php'; ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -11,7 +11,7 @@
     <!-- Open Graph -->
     <meta property="og:title" content="<?php echo $page_title ?? 'MSTechPC - Komputery Gamingowe Premium'; ?>">
     <meta property="og:description" content="Nowoczesny sklep i serwis komputerowy. Najlepsze zestawy gamingowe w Częstochowie.">
-    <meta property="og:image" content="/assets/img/og-image.jpg">
+    <meta property="og:image" content="<?php echo ASSETS_PATH; ?>/img/og-image.jpg">
     <meta property="og:url" content="<?php echo SITE_URL; ?>">
     <meta property="og:type" content="website">
 
@@ -23,17 +23,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/css/components.css">
-    <link rel="stylesheet" href="/assets/css/animations.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>/css/main.css">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>/css/components.css">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>/css/animations.css">
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>/css/responsive.css">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="<?php echo ASSETS_PATH; ?>/img/favicon.png">
 
     <!-- Scripts -->
-    <script defer src="/assets/js/app.js"></script>
-    <script defer src="/assets/js/animations.js"></script>
+    <script defer src="<?php echo ASSETS_PATH; ?>/js/app.js"></script>
+    <script defer src="<?php echo ASSETS_PATH; ?>/js/animations.js"></script>
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">

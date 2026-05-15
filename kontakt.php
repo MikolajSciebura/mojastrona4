@@ -44,8 +44,8 @@ require_once 'config/config.php';
 
                 <div class="contact-right reveal">
                     <div class="card">
-                        <form action="/api/contact.php" method="POST">
-                            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                        <form action="<?php echo BASE_URL; ?>/api/contact.php" method="POST">
+                            <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
                             <div class="form-group">
                                 <label class="form-label">Imię i Nazwisko</label>
                                 <input type="text" name="name" class="form-input" required>

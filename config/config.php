@@ -15,7 +15,22 @@ define('SITE_ADDRESS', 'ul. Przykładowa 1, 42-200 Częstochowa');
 
 // Paths
 define('BASE_PATH', dirname(__DIR__));
-define('ASSETS_PATH', '/assets');
+
+// Detect Base URL for local development
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'];
+
+// Robust detection of project root URL
+$scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+$scriptFileName = str_replace('\\', '/', $_SERVER['SCRIPT_FILENAME']);
+$docRoot = str_replace($scriptPath, '', $scriptFileName);
+$projectRoot = str_replace('\\', '/', BASE_PATH);
+$baseDir = str_replace($docRoot, '', $projectRoot);
+
+$baseUrl = $protocol . "://" . $host . $baseDir;
+
+define('BASE_URL', $baseUrl);
+define('ASSETS_PATH', BASE_URL . '/assets');
 
 // Security
 define('SESSION_LIFETIME', 3600); // 1 hour
