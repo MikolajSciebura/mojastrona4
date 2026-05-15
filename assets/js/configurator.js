@@ -39,7 +39,7 @@ class PCConfigurator {
                 // Add to summary list
                 const div = document.createElement('div');
                 div.className = 'selection-item fs-sm flex-between mb-half';
-                div.innerHTML = `<span>\${name}</span><span>\${this.formatPrice(price)}</span>`;
+                div.innerHTML = `<span>${name}</span><span>${this.formatPrice(price)}</span>`;
                 this.summaryContainer.appendChild(div);
 
                 // Simple score logic for demo
@@ -50,8 +50,8 @@ class PCConfigurator {
         });
 
         this.totalDisplay.textContent = this.formatPrice(total);
-        this.perfBar.style.width = `\${score}%`;
-        this.perfText.textContent = `\${score}%`;
+        this.perfBar.style.width = `${score}%`;
+        this.perfText.textContent = `${score}%`;
     }
 
     formatPrice(price) {

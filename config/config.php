@@ -31,10 +31,17 @@ $baseDir = str_replace($docRoot, '', $projectRoot);
 $baseDir = '/' . trim($baseDir, '/');
 if ($baseDir === '/') $baseDir = '';
 
+// Fix for windows/xampp where paths might be messed up
 $baseUrl = $protocol . "://" . $host . $baseDir;
+
+// Remove trailing slash if exists to keep it consistent
+$baseUrl = rtrim($baseUrl, '/');
 
 define('BASE_URL', $baseUrl);
 define('ASSETS_PATH', BASE_URL . '/assets');
+
+// Requirements
+require_once __DIR__ . '/db.php';
 
 // Autoloader
 spl_autoload_register(function ($class) {

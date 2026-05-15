@@ -23,7 +23,23 @@ class ConfiguratorController extends Controller {
         if (!is_logged_in()) {
             $this->json(['success' => false, 'message' => 'Musisz być zalogowany']);
         }
-        // Save logic to pc_configurations table
-        $this->json(['success' => true, 'message' => 'Konfiguracja zapisana']);
+
+        $input = json_decode(file_get_contents('php://input'), true);
+        $components = $input['components'] ?? [];
+
+        if (empty($components)) {
+            $this->json(['success' => false, 'message' => 'Pusta konfiguracja']);
+        }
+
+        // Logic to save configuration to database
+        $userId = $_SESSION['user_id'];
+        $configName = "Zestaw " . date('Y-m-d H:i');
+
+        $stmt = Database::getInstance()->getConnection()->prepare("INSERT INTO pc_configurations (user_id, name, components_json) VALUES (?, ?, ?)");
+        if ($stmt->execute([$userId, $configName, json_encode($components)])) {
+            $this->json(['success' => true, 'message' => 'Konfiguracja zapisana pomyślnie!']);
+        } else {
+            $this->json(['success' => false, 'message' => 'Błąd zapisu']);
+        }
     }
 }

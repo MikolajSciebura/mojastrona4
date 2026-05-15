@@ -38,10 +38,39 @@ class AdminController extends Controller {
 
     public function addProduct() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Handle image upload and data saving
-            // ... Logic for saving ...
-            $this->redirect('/admin/products.php');
+            $data = [
+                'name' => h($_POST['name']),
+                'slug' => h($_POST['slug']),
+                'price' => (float)$_POST['price'],
+                'category_id' => (int)$_POST['category_id'],
+                'short_description' => h($_POST['short_description']),
+                'description' => $_POST['description'],
+                'is_featured' => isset($_POST['is_featured']) ? 1 : 0
+            ];
+
+            // Image handling
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+                $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                $filename = time() . '_' . $data['slug'] . '.' . $ext;
+                $target = BASE_PATH . '/uploads/products/' . $filename;
+
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
+                    $data['image_url'] = ASSETS_PATH . '/../uploads/products/' . $filename;
+                }
+            }
+
+            if ($this->productModel->create($data)) {
+                $this->redirect('/admin/products');
+            }
         }
         $this->render('admin/product_form', ['page_title' => 'Dodaj Produkt']);
+    }
+
+    public function orders() {
+        $orders = $this->orderModel->all();
+        $this->render('admin/orders', [
+            'orders' => $orders,
+            'page_title' => 'Zarządzanie Zamówieniami'
+        ]);
     }
 }

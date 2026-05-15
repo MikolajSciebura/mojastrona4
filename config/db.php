@@ -24,8 +24,14 @@ class Database {
         try {
             $this->pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (\PDOException $e) {
-            // In production, log this and show a generic error
-            throw new \PDOException($e->getMessage(), (int)$e->getCode());
+            if (DEV_MODE) {
+                // If DB is not available in sandbox, don't crash the whole site during development
+                // but log the error
+                error_log("Database connection failed: " . $e->getMessage());
+                $this->pdo = null;
+            } else {
+                throw new \PDOException($e->getMessage(), (int)$e->getCode());
+            }
         }
     }
 

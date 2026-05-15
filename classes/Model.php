@@ -6,6 +6,9 @@ abstract class Model {
 
     public function __construct() {
         $this->db = Database::getInstance()->getConnection();
+        if ($this->db === null && !DEV_MODE) {
+             throw new Exception("Database connection lost.");
+        }
     }
 
     public function all() {
