@@ -1,34 +1,24 @@
 /**
- * MSTechPC Scroll Reveal Animations
+ * Scroll Reveal & Premium Animations
  */
-document.addEventListener('DOMContentLoaded', () => {
+
+const initReveal = () => {
     const revealElements = document.querySelectorAll('.reveal');
 
     const revealOnScroll = () => {
-        const windowHeight = window.innerHeight;
         revealElements.forEach(el => {
-            const elementTop = el.getBoundingClientRect().top;
-            const elementVisible = 150;
+            const rect = el.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
 
-            if (elementTop < windowHeight - elementVisible) {
+            if (rect.top < windowHeight - 50) {
                 el.classList.add('active');
             }
         });
     };
 
-    // Initial check
-    revealOnScroll();
-
-    // Scroll event
     window.addEventListener('scroll', revealOnScroll);
+    // Initial trigger
+    setTimeout(revealOnScroll, 100);
+};
 
-    // Navbar scroll effect
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('navbar-scrolled');
-        } else {
-            navbar.classList.remove('navbar-scrolled');
-        }
-    });
-});
+document.addEventListener('DOMContentLoaded', initReveal);

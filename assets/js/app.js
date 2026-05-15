@@ -1,5 +1,5 @@
 /**
- * Core Application Logic
+ * Core Application Logic - MSTechPC
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,31 +19,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (menuBtn) {
         menuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
+            menuBtn.classList.toggle('open');
         });
     }
 
-    // 3. Scroll Reveal Animation
-    const revealElements = document.querySelectorAll('.reveal');
-    const revealOnScroll = () => {
-        revealElements.forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight - 100) {
-                el.classList.add('active');
+    // 3. Smooth Scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
-    };
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll(); // Initial check
-
-    // 4. Cart Side Panel (Mockup logic)
-    const cartBtn = document.querySelector('.cart-btn');
-    if (cartBtn) {
-        cartBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log('Open Cart Panel');
-            // Logic to open AJAX cart
-        });
-    }
+    });
 });
 
 // Utility for formatting price
