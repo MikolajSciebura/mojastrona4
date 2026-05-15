@@ -1,76 +1,69 @@
 /**
- * MSTechPC PC Configurator Logic
+ * MSTechPC Configurator Logic
  */
-class Configurator {
+class PCConfigurator {
     constructor() {
-        this.basePrice = 500; // Build fee
-        this.selections = {
-            cpu: { id: 1, name: 'i9-14900K', price: 2899, fps: 85 },
-            gpu: { id: 3, name: 'RTX 4090', price: 9299, fps: 40 }
-        };
+        this.selections = {};
+        this.basePrice = 0;
         this.init();
     }
 
     init() {
-        this.bindEvents();
-        this.updateUI();
-    }
+        this.inputs = document.querySelectorAll('.component-card-radio input');
+        this.summaryContainer = document.getElementById('config-selections');
+        this.totalDisplay = document.getElementById('total-price');
+        this.perfBar = document.getElementById('perf-bar-fill');
+        this.perfText = document.getElementById('perf-score');
 
-    bindEvents() {
-        // CPU selection
-        document.querySelectorAll('input[name="cpu"]').forEach(input => {
-            input.addEventListener('change', (e) => {
-                const label = e.target.closest('.component-item');
-                this.selections.cpu = {
-                    id: e.target.value,
-                    name: label.querySelector('strong').textContent,
-                    price: parseInt(label.querySelector('.component-price').textContent.replace(/\D/g, '')),
-                    fps: e.target.value == 1 ? 85 : 80 // Simplified logic
-                };
-                this.updateUI();
-            });
+        this.inputs.forEach(input => {
+            input.addEventListener('change', () => this.updateSummary());
         });
 
-        // GPU selection
-        document.querySelectorAll('input[name="gpu"]').forEach(input => {
-            input.addEventListener('change', (e) => {
-                const label = e.target.closest('.component-item');
-                this.selections.gpu = {
-                    id: e.target.value,
-                    name: label.querySelector('strong').textContent,
-                    price: parseInt(label.querySelector('.component-price').textContent.replace(/\D/g, '')),
-                    fps: 40 // Simplified
-                };
-                this.updateUI();
-            });
-        });
-    }
-
-    calculateTotal() {
-        return this.basePrice + this.selections.cpu.price + this.selections.gpu.price;
-    }
-
-    updateUI() {
-        // Update summary text
-        document.getElementById('summary-cpu').textContent = this.selections.cpu.name;
-        document.getElementById('summary-gpu').textContent = this.selections.gpu.name;
-
-        // Update total price
-        const total = this.calculateTotal();
-        document.getElementById('config-total-price').textContent = new Intl.NumberFormat('pl-PL', {
-            style: 'currency',
-            currency: 'PLN'
-        }).format(total);
-
-        // Update FPS meter (simplified)
-        const totalFps = this.selections.cpu.fps + this.selections.gpu.fps;
-        const fill = document.getElementById('fps-meter-fill');
-        if (fill) {
-            fill.style.width = `${Math.min(totalFps, 100)}%`;
+        const saveBtn = document.getElementById('btn-save-config');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => this.saveConfig());
         }
+    }
+
+    updateSummary() {
+        let total = this.basePrice;
+        this.summaryContainer.innerHTML = '';
+        let score = 0;
+
+        this.inputs.forEach(input => {
+            if (input.checked) {
+                const name = input.dataset.name;
+                const price = parseFloat(input.dataset.price);
+                total += price;
+
+                // Add to summary list
+                const div = document.createElement('div');
+                div.className = 'selection-item fs-sm flex-between mb-half';
+                div.innerHTML = `<span>\${name}</span><span>\${this.formatPrice(price)}</span>`;
+                this.summaryContainer.appendChild(div);
+
+                // Simple score logic for demo
+                if (input.name === 'gpu' || input.name === 'cpu') {
+                    score += 40;
+                }
+            }
+        });
+
+        this.totalDisplay.textContent = this.formatPrice(total);
+        this.perfBar.style.width = `\${score}%`;
+        this.perfText.textContent = `\${score}%`;
+    }
+
+    formatPrice(price) {
+        return new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(price);
+    }
+
+    async saveConfig() {
+        // Fetch/POST to /api/configurator.php?action=save
+        console.log('Saving config...', this.selections);
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    window.mstechConfigurator = new Configurator();
+    new PCConfigurator();
 });
